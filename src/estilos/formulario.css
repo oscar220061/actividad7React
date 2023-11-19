@@ -1,0 +1,16 @@
+.formulario {
+    border: 2px solid #ddd; 
+    padding: 20px;
+    width: 300px; 
+    margin: auto;
+    background-color: aquamarine;
+  }
+.texto-rojo {
+    color: red;
+}
+.boton-verde{
+  background-color: green;
+}
+.boton-rojo{
+  background-color: red;
+}
