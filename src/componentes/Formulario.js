@@ -1,12 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
 import "../estilos/formulario.css";
 
+const url = "http://localhost:5000/users";
 const Formulario = () => {
+  
     const [terminos, setTerminos] = useState(false);
     const [nombre, setNombre] = useState("");
     const [apellido, setApellido] = useState("");
     const [email, setEmail] = useState("");
-    const [sexo, setSexo] = useState(null);
+    const [sexo, setSexo] = useState("Hombre");
     const [errores, setErrores] = useState({ nombre: "", apellido: "", email: "", terminos: "" });
     const [formValido, setFormValido] = useState(false);
     
@@ -29,7 +31,22 @@ const Formulario = () => {
                 setMensaje(nuevaCadena);
             }
         };
+    
+    const [usuario, setUsuario] = useState({}) 
 
+    
+    function addList() {
+      setUsuario({name: nombre, apellido: apellido, email: email, sexo: sexo, mensaje: mensaje, terminos: true});
+  }
+
+  async function fetchPost(url){
+    await fetch(url, {
+    method: "POST", 
+    body: JSON.stringify(usuario), //convierte JS en JSON
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })}
 
   const validarFormulario = useCallback(() => { 
     let errores = {};
@@ -72,6 +89,8 @@ const Formulario = () => {
     if(nombreOk && apellidoOk && emailOk && terminosOk){
         formValido = true;
         setFormValido(formValido);
+       
+       
     }else{
       formValido = false;
       setFormValido(formValido);
@@ -80,13 +99,15 @@ const Formulario = () => {
     setErrores(errores);
     
   },[nombre, apellido, email, terminos, nombreOk, apellidoOk, emailOk, terminosOk])
-  
+  useEffect(function(){
+    fetchPost(url)
+    },[]);
 
   function handleSubmit(e){
     e.preventDefault();
     if(formValido){
-      //mandar datos
-
+      addList()
+      console.log(usuario)
       setNombreOk(false)
       setApellidoOk(false)
       setEmailOk(false)
@@ -118,9 +139,9 @@ const Formulario = () => {
         <p className="texto-rojo">{errores.apellido}</p>
         <p>Email: <input type="text" onChange={(e) => setEmail(e.target.value)}  value = {email}/></p>
         <p className="texto-rojo">{errores.email}</p>
-        <p>Sexo: <select value={sexo || ""} onChange={(e) => setSexo(e.target.value)}>
-            <option value="hombre">Hombre</option>
-            <option value="mujer">Mujer</option>                            
+        <p>Sexo: <select value={sexo} onChange={(e) => setSexo(e.target.value)}>
+            <option value="Hombre">Hombre</option>
+            <option value="Mujer">Mujer</option>                            
         </select></p>
 
         <p>Mensaje: <textarea value={mensaje} onChange={handleMensaje} /></p>

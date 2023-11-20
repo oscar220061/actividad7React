@@ -1,12 +1,8 @@
 {
   "users": [
-    {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
+
   ],
-  "comments": [
+  "comments": [ 
     {
       "id": 1,
       "body": "some comment",
