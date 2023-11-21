@@ -1,7 +1,7 @@
 
 import './App.css';
 import Formulario from './componentes/Formulario';
-import FetchServerPost from './componentes/FetchServerPost';
+
 
 function App() {
   return (
