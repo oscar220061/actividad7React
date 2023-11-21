@@ -35,9 +35,9 @@ const Formulario = () => {
     const [usuario, setUsuario] = useState({}) 
 
     
-    function addList() {
-      setUsuario({name: nombre, apellido: apellido, email: email, sexo: sexo, mensaje: mensaje, terminos: true});
-  }
+    
+      
+  
 
   async function fetchPost(url){
     await fetch(url, {
@@ -89,6 +89,7 @@ const Formulario = () => {
     if(nombreOk && apellidoOk && emailOk && terminosOk){
         formValido = true;
         setFormValido(formValido);
+        setUsuario({name: nombre, apellido: apellido, email: email, sexo: sexo, mensaje: mensaje, terminos: true})
        
        
     }else{
@@ -98,15 +99,12 @@ const Formulario = () => {
     
     setErrores(errores);
     
-  },[nombre, apellido, email, terminos, nombreOk, apellidoOk, emailOk, terminosOk])
-  useEffect(function(){
-    fetchPost(url)
-    },[]);
-
+  },[nombre, apellido, email, terminos, mensaje, sexo, nombreOk, apellidoOk, emailOk, terminosOk])
+ 
   function handleSubmit(e){
     e.preventDefault();
     if(formValido){
-      addList()
+      
       console.log(usuario)
       setNombreOk(false)
       setApellidoOk(false)
@@ -119,10 +117,17 @@ const Formulario = () => {
       setCaracteresRestantes(500)
       setFormValido(false)
       setTerminos(false)
+      
       return alert('Datos enviados correctamente');
+      
     }
     
   };
+  function escribirDatos(){
+    if(formValido){
+      fetchPost(url)
+    }
+  }
 
   
   useEffect(() => {
@@ -151,7 +156,7 @@ const Formulario = () => {
             
       </div>
 
-      <button className={formValido ? "boton-verde" : "boton-rojo"}type="submit">Enviar</button>
+      <button onClick={escribirDatos} className={formValido ? "boton-verde" : "boton-rojo"}type="submit">Enviar</button>
     </form>
   );
 };
